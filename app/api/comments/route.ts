@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+type EmotionLabel = "joy" | "sadness" | "anger" | "surprise" | "disgust" | "fear";
+
 type YouTubeCommentThread = {
   id: string;
   snippet: {
@@ -18,6 +20,41 @@ type YouTubeCommentThread = {
 type VideoSnippetResponse = {
   items?: { snippet?: { title?: string; channelTitle?: string } }[];
 };
+
+type BackendAnalysis = {
+  emotions: Record<EmotionLabel, number>;
+  dominant: EmotionLabel;
+};
+
+function backendUrl(): string {
+  const base = process.env.EMOTION_API_URL ?? "http://localhost:8000";
+  return base.endsWith("/") ? base.slice(0, -1) : base;
+}
+
+async function fetchEmotions(texts: string[]): Promise<BackendAnalysis[]> {
+  if (texts.length === 0) return [];
+
+  const endpoint = `${backendUrl()}/analyze-batch`;
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ texts }),
+    // Avoid caching model responses.
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`Emotion API 실패: ${res.status} ${text}`);
+  }
+
+  const data = (await res.json()) as BackendAnalysis[];
+  if (!Array.isArray(data) || data.length !== texts.length) {
+    throw new Error("Emotion API 응답 형식이 올바르지 않습니다.");
+  }
+
+  return data;
+}
 
 function extractVideoId(raw: string): string | null {
   const normalized = raw.startsWith("http") ? raw : `https://${raw}`;
@@ -159,10 +196,19 @@ export async function POST(req: Request) {
       .sort((a, b) => (b?.likes ?? 0) - (a?.likes ?? 0))
       .slice(0, 30);
 
+    const analyses = await fetchEmotions(
+      comments.map((comment) => comment?.text ?? ""),
+    );
+
+    const enriched = comments.map((comment, index) => ({
+      ...comment,
+      emotions: analyses[index]?.emotions,
+    }));
+
     return NextResponse.json({
       videoTitle: meta.title,
       channelTitle: meta.channel,
-      comments,
+      comments: enriched,
     });
   } catch (error) {
     console.error("[comments] fetch error", error);
