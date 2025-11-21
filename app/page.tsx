@@ -20,6 +20,10 @@ type CommentBase = {
   publishedAt: string;
 };
 
+type CommentBaseWithEmotions = CommentBase & {
+  emotions?: SentimentScores;
+};
+
 type CommentInsight = CommentBase & { emotions: SentimentScores };
 
 type AnalysisResponse = {
@@ -33,7 +37,7 @@ type AnalysisResponse = {
 type CommentsResponse = {
   videoTitle: string;
   channelTitle: string;
-  comments: CommentBase[];
+  comments: CommentBaseWithEmotions[];
   error?: string;
 };
 
@@ -111,6 +115,19 @@ function normalizeSentiment(values: SentimentScores): SentimentScores {
   );
 }
 
+function ensureSentimentScores(
+  emotions?: Partial<SentimentScores>,
+): SentimentScores {
+  const filled = EMOTIONS.reduce((acc, emotion) => {
+    const value = emotions?.[emotion.key];
+    acc[emotion.key] =
+      typeof value === "number" && Number.isFinite(value) ? value : 0;
+    return acc;
+  }, {} as SentimentScores);
+
+  return normalizeSentiment(filled);
+}
+
 function scoreEmotionByKeywords(text: string): SentimentScores {
   const normalized = text.toLowerCase();
   const scores: SentimentScores = {
@@ -153,7 +170,9 @@ function scoreEmotionByKeywords(text: string): SentimentScores {
 function buildAnalysis(payload: CommentsResponse): AnalysisResponse {
   const enriched: CommentInsight[] = (payload.comments ?? []).map((comment) => ({
     ...comment,
-    emotions: scoreEmotionByKeywords(comment.text),
+    emotions: ensureSentimentScores(
+      comment.emotions ?? scoreEmotionByKeywords(comment.text),
+    ),
   }));
 
   const summary = EMOTIONS.reduce((acc, emotion) => {
