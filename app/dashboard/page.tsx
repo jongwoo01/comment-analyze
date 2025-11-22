@@ -355,7 +355,7 @@ function DashboardContent() {
         <main className="mx-auto flex min-h-screen max-w-4xl flex-col justify-center px-6 py-12">
           <div className="max-w-2xl space-y-3">
             <div className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs uppercase tracking-[0.13em] text-sky-600 ring-1 ring-slate-200">
-              댓글 감정 레이더
+              댓글 감정 분석
               <span className="rounded-full bg-emerald-400/80 px-2 py-0.5 text-[10px] font-semibold uppercase text-emerald-950">
                 Dashboard
               </span>
@@ -392,7 +392,7 @@ function DashboardContent() {
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-sky-700 ring-1 ring-slate-200">
-              📡 댓글 감정 레이더 · 실데이터
+              📡 댓글 감정분석 결과
             </div>
             <h1 className="text-2xl font-semibold sm:text-3xl">
               {analysis.videoTitle}

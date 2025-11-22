@@ -28,18 +28,17 @@ export default function Home() {
       <main className="mx-auto flex min-h-screen max-w-4xl flex-col justify-center px-6 py-12">
         <div className="max-w-2xl space-y-3">
           <div className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs uppercase tracking-[0.13em] text-sky-600 ring-1 ring-slate-200">
-            댓글 감정 레이더
+            댓글 감정 분석
             <span className="rounded-full bg-emerald-400/80 px-2 py-0.5 text-[10px] font-semibold uppercase text-emerald-950">
               Start
             </span>
           </div>
           <h1 className="text-3xl font-semibold leading-tight sm:text-4xl">
-            유튜브 링크만 넣으면, 대시보드에서 감정을 바로 시각화합니다.
+            유튜브 링크만 넣고
           </h1>
-          <p className="text-sm text-slate-600 sm:text-base">
-            메인에서 URL을 입력하면 `/dashboard?url=...`로 이동해요. 새로고침하거나
-            공유해도 같은 주소로 결과가 유지됩니다.
-          </p>
+          <h1 className="text-3xl font-semibold leading-tight sm:text-4xl">
+            댓글들의 반응을 한눈에 확인하세요.
+          </h1>
         </div>
         <div className="mt-6 max-w-2xl">
           <LinkForm
