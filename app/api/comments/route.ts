@@ -26,16 +26,21 @@ type BackendAnalysis = {
   dominant: EmotionLabel;
 };
 
-function backendUrl(): string {
-  const base = process.env.EMOTION_API_URL ?? "http://localhost:8000";
+function backendUrl(): string | null {
+  const base = process.env.EMOTION_API_URL;
+  if (!base) return null;
   return base.endsWith("/") ? base.slice(0, -1) : base;
 }
 
-async function fetchEmotions(texts: string[]): Promise<BackendAnalysis[]> {
+async function fetchEmotions(
+  texts: string[],
+  endpoint: string | null,
+): Promise<(BackendAnalysis | null)[]> {
+  if (!endpoint) return texts.map(() => null);
   if (texts.length === 0) return [];
 
-  const endpoint = `${backendUrl()}/analyze-batch`;
-  const res = await fetch(endpoint, {
+  const url = `${endpoint}/analyze-batch`;
+  const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ texts }),
@@ -143,9 +148,11 @@ export async function POST(req: Request) {
   ytUrl.searchParams.set("key", apiKey);
 
   try {
+    const backend = backendUrl();
     console.log("[comments] fetch start", {
       videoId,
       ytUrl: ytUrl.toString(),
+      hasEmotionApi: Boolean(backend),
     });
     const [commentRes, meta] = await Promise.all([
       fetch(ytUrl, { cache: "no-store" }),
@@ -209,6 +216,7 @@ export async function POST(req: Request) {
 
     const analyses = await fetchEmotions(
       comments.map((comment) => comment?.text ?? ""),
+      backend,
     );
 
     const enriched = comments.map((comment, index) => ({
