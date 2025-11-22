@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-//유튜브 
 const display = Space_Grotesk({
   variable: "--font-display",
   subsets: ["latin"],

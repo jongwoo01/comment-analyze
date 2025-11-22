@@ -143,6 +143,10 @@ export async function POST(req: Request) {
   ytUrl.searchParams.set("key", apiKey);
 
   try {
+    console.log("[comments] fetch start", {
+      videoId,
+      ytUrl: ytUrl.toString(),
+    });
     const [commentRes, meta] = await Promise.all([
       fetch(ytUrl, { cache: "no-store" }),
       fetchVideoMeta(videoId, apiKey),
@@ -171,6 +175,13 @@ export async function POST(req: Request) {
             : apiReason === "forbidden"
               ? "이 영상의 댓글에 접근할 권한이 없어 불러올 수 없습니다. (댓글 비공개/차단/연령 제한/지역 제한 가능성)"
             : null;
+
+      console.error("[comments] youtube comments fetch failed", {
+        status: commentRes.status,
+        apiReason,
+        text: text?.slice(0, 500),
+        videoId,
+      });
 
       throw new Error(
         friendly ?? `YouTube API 오류: ${commentRes.status} ${text}`,
@@ -211,7 +222,11 @@ export async function POST(req: Request) {
       comments: enriched,
     });
   } catch (error) {
-    console.error("[comments] fetch error", error);
+    console.error("[comments] fetch error", {
+      videoId,
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return NextResponse.json(
       {
         error: "유튜브 댓글을 불러오는 중 문제가 발생했습니다.",
