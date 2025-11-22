@@ -625,7 +625,7 @@ export default function DashboardPage() {
                                 4,
                                 comment.emotions[emotion.key] * 100,
                               )}%`,
-                              background: `linear-gradient(90deg, ${emotion.accent}, #ffffff80)`,
+                              backgroundColor: `${emotion.accent}`,
                             }}
                           />
                         </div>
