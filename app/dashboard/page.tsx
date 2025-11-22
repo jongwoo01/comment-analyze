@@ -410,53 +410,53 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <section className="grid gap-4 md:grid-cols-3">
-          <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
-            <p className="text-xs uppercase tracking-[0.14em] text-slate-500">
-              🗨️ 댓글 개수
-            </p>
-            <p className="mt-1 text-2xl font-semibold text-slate-900">
-              {analysis.totalComments}
-            </p>
-          </div>
-          <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
-            <p className="text-xs uppercase tracking-[0.14em] text-slate-500">
-              🎭 최빈 감정
-            </p>
-            <p className="mt-1 text-2xl font-semibold text-amber-600">
-              {topEmotion ? `${topEmotion.emoji} ${topEmotion.label}` : "데이터 없음"}
-            </p>
-          </div>
-          <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
-            <p className="text-xs uppercase tracking-[0.14em] text-slate-500">
-              🌈 긍·부정 밸런스
-            </p>
-            {sentimentBalance ? (
-              <div className="mt-2 space-y-1 text-slate-900">
-                <div className="flex items-center justify-between">
-                  <span>긍정</span>
-                  <span className="font-semibold text-emerald-600">
-                    {formatPercent(sentimentBalance.positive)}%
-                  </span>
+        <section className="grid gap-4 lg:grid-cols-[360px_1fr]">
+          <div className="flex flex-col gap-3">
+            <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
+              <p className="text-xs uppercase tracking-[0.14em] text-slate-500">
+                🗨️ 댓글 개수
+              </p>
+              <p className="mt-1 text-2xl font-semibold text-slate-900">
+                {analysis.totalComments}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
+              <p className="text-xs uppercase tracking-[0.14em] text-slate-500">
+                🎭 최빈 감정
+              </p>
+              <p className="mt-1 text-2xl font-semibold text-amber-600">
+                {topEmotion ? `${topEmotion.emoji} ${topEmotion.label}` : "데이터 없음"}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
+              <p className="text-xs uppercase tracking-[0.14em] text-slate-500">
+                🌈 긍·부정 밸런스
+              </p>
+              {sentimentBalance ? (
+                <div className="mt-2 space-y-1 text-slate-900">
+                  <div className="flex items-center justify-between">
+                    <span>긍정</span>
+                    <span className="font-semibold text-emerald-600">
+                      {formatPercent(sentimentBalance.positive)}%
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-slate-600">
+                    <span>중립</span>
+                    <span>{formatPercent(sentimentBalance.neutral)}%</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-slate-600">
+                    <span>부정</span>
+                    <span className="text-rose-600">
+                      {formatPercent(sentimentBalance.negative)}%
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between text-sm text-slate-600">
-                  <span>중립</span>
-                  <span>{formatPercent(sentimentBalance.neutral)}%</span>
-                </div>
-                <div className="flex items-center justify-between text-sm text-slate-600">
-                  <span>부정</span>
-                  <span className="text-rose-600">
-                    {formatPercent(sentimentBalance.negative)}%
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <p className="mt-1 text-lg text-slate-500">데이터 없음</p>
-            )}
+              ) : (
+                <p className="mt-1 text-lg text-slate-500">데이터 없음</p>
+              )}
+            </div>
           </div>
-        </section>
 
-        <section className="grid gap-4 lg:grid-cols-[1.3fr_1fr]">
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between text-sm text-slate-600">
               <span>🌀 감정 분포 (원형)</span>
@@ -548,93 +548,93 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
+        </section>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div className="flex items-center justify-between text-sm text-slate-600">
-              <span>⭐ 상위 댓글 요약</span>
-              <div className="flex items-center gap-2 text-xs text-slate-600">
-                <button
-                  type="button"
-                  className="rounded-full bg-slate-100 px-3 py-1 disabled:opacity-40"
-                  onClick={() => setPage((p) => Math.max(0, p - 1))}
-                  disabled={page === 0}
-                >
-                  ◀︎ 이전
-                </button>
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-[12px] text-slate-700">
-                  {page + 1} / {totalPages}
-                </span>
-                <button
-                  type="button"
-                  className="rounded-full bg-slate-100 px-3 py-1 disabled:opacity-40"
-                  onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
-                  disabled={page >= totalPages - 1}
-                >
-                  다음 ▶︎
-                </button>
-              </div>
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex items-center justify-between text-sm text-slate-600">
+            <span>⭐ 상위 댓글 요약</span>
+            <div className="flex items-center gap-2 text-xs text-slate-600">
+              <button
+                type="button"
+                className="rounded-full bg-slate-100 px-3 py-1 disabled:opacity-40"
+                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                disabled={page === 0}
+              >
+                ◀︎ 이전
+              </button>
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-[12px] text-slate-700">
+                {page + 1} / {totalPages}
+              </span>
+              <button
+                type="button"
+                className="rounded-full bg-slate-100 px-3 py-1 disabled:opacity-40"
+                onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                disabled={page >= totalPages - 1}
+              >
+                다음 ▶︎
+              </button>
             </div>
-            <div className="mt-3 space-y-3">
-              {highlighted.map((comment) => {
-                const dominant = getDominantEmotion(comment.emotions);
-                return (
-                  <div
-                    key={comment.id}
-                    className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-semibold text-slate-900">
-                          @{comment.author}
-                        </p>
-                        <p className="text-xs text-slate-500">
-                          좋아요 {comment.likes.toLocaleString()}
-                        </p>
-                      </div>
-                      <span
-                        className="rounded-full px-3 py-1 text-xs font-semibold text-slate-900"
-                        style={{ backgroundColor: `${dominant.accent}cc` }}
-                      >
-                        {dominant.emoji} {dominant.label}
-                      </span>
+          </div>
+          <div className="mt-3 space-y-3">
+            {highlighted.map((comment) => {
+              const dominant = getDominantEmotion(comment.emotions);
+              return (
+                <div
+                  key={comment.id}
+                  className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold text-slate-900">
+                        @{comment.author}
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        좋아요 {comment.likes.toLocaleString()}
+                      </p>
                     </div>
-                    <p className="mt-2 text-slate-700 line-clamp-3">
-                      {comment.text}
-                    </p>
-                    <div className="mt-3 grid grid-cols-3 gap-1 text-[11px] text-slate-600">
-                      {EMOTIONS.map((emotion) => (
-                        <div key={emotion.key} className="flex flex-col gap-1">
-                          <div className="flex items-center justify-between gap-1">
-                            <div className="flex items-center gap-1">
-                            <span
-                              className="h-2 w-2 rounded-full"
-                              style={{ backgroundColor: `${emotion.accent}aa` }}
-                            />
-                              {emotion.label}
-                            </div>
-                            <span className="font-semibold text-slate-800">
-                              {comment.emotions[emotion.key].toFixed(2)}
-                            </span>
-                          </div>
-                          <div className="h-1.5 rounded-full bg-slate-200">
-                            <div
-                              className="h-full rounded-full"
-                              style={{
-                                width: `${Math.max(
-                                  4,
-                                  comment.emotions[emotion.key] * 100,
-                                )}%`,
-                                background: `linear-gradient(90deg, ${emotion.accent}, #ffffff80)`,
-                              }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    <span
+                      className="rounded-full px-3 py-1 text-xs font-semibold text-slate-900"
+                      style={{ backgroundColor: `${dominant.accent}cc` }}
+                    >
+                      {dominant.emoji} {dominant.label}
+                    </span>
                   </div>
-                );
-              })}
-            </div>
+                  <p className="mt-2 text-slate-700 line-clamp-3">
+                    {comment.text}
+                  </p>
+                  <div className="mt-3 grid grid-cols-3 gap-1 text-[11px] text-slate-600">
+                    {EMOTIONS.map((emotion) => (
+                      <div key={emotion.key} className="flex flex-col gap-1">
+                        <div className="flex items-center justify-between gap-1">
+                          <div className="flex items-center gap-1">
+                          <span
+                            className="h-2 w-2 rounded-full"
+                            style={{ backgroundColor: `${emotion.accent}aa` }}
+                          />
+                            {emotion.label}
+                          </div>
+                          <span className="font-semibold text-slate-800">
+                            {comment.emotions[emotion.key].toFixed(2)}
+                          </span>
+                        </div>
+                        <div className="h-1.5 rounded-full bg-slate-200">
+                          <div
+                            className="h-full rounded-full"
+                            style={{
+                              width: `${Math.max(
+                                4,
+                                comment.emotions[emotion.key] * 100,
+                              )}%`,
+                              background: `linear-gradient(90deg, ${emotion.accent}, #ffffff80)`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
       </main>
