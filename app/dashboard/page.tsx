@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { FormEvent, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { LinkForm } from "../components/LinkForm";
 
@@ -196,7 +196,7 @@ async function fetchAndAnalyze(videoUrl: string): Promise<AnalysisResponse> {
   return buildAnalysis(data);
 }
 
-export default function DashboardPage() {
+function DashboardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const paramUrl = searchParams.get("url") ?? "";
@@ -639,5 +639,19 @@ export default function DashboardPage() {
         </section>
       </main>
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center text-slate-600">
+          대시보드를 준비하는 중입니다...
+        </div>
+      }
+    >
+      <DashboardContent />
+    </Suspense>
   );
 }
