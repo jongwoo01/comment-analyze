@@ -27,8 +27,12 @@ type BackendAnalysis = {
 };
 
 function backendUrl(): string | null {
-  const base = process.env.EMOTION_API_URL;
-  if (!base) return null;
+  const baseEnv = process.env.EMOTION_API_URL;
+  if (baseEnv === "") return null;
+  const base =
+    typeof baseEnv === "string" && baseEnv.length > 0
+      ? baseEnv
+      : "https://api.comment-analyze.leejongwoo.com";
   return base.endsWith("/") ? base.slice(0, -1) : base;
 }
 
@@ -219,6 +223,8 @@ export async function POST(req: Request) {
       backend,
     );
 
+    const emotionSource = backend ? "model" : "keyword-mock";
+
     const enriched = comments.map((comment, index) => ({
       ...comment,
       emotions: analyses[index]?.emotions,
@@ -228,6 +234,7 @@ export async function POST(req: Request) {
       videoTitle: meta.title,
       channelTitle: meta.channel,
       comments: enriched,
+      emotionSource,
     });
   } catch (error) {
     console.error("[comments] fetch error", {

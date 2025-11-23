@@ -34,12 +34,14 @@ type AnalysisResponse = {
   summary: SentimentScores;
   totalComments: number;
   topComments: CommentInsight[];
+  emotionSource?: "model" | "keyword-mock";
 };
 
 type CommentsResponse = {
   videoTitle: string;
   channelTitle: string;
   comments: CommentBaseWithEmotions[];
+  emotionSource?: "model" | "keyword-mock";
   error?: string;
 };
 
@@ -169,6 +171,7 @@ function buildAnalysis(payload: CommentsResponse): AnalysisResponse {
     summary: normalizeSentiment(summary),
     totalComments: enriched.length,
     topComments: enriched.slice(0, 30),
+    emotionSource: payload.emotionSource,
   };
 }
 
@@ -460,9 +463,20 @@ function DashboardContent() {
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between text-sm text-slate-600">
               <span>🌀 감정 분포 (원형)</span>
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-[12px] text-slate-700">
-                백분율
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="rounded-full bg-slate-100 px-3 py-1 text-[12px] text-slate-700">
+                  백분율
+                </span>
+                {analysis.emotionSource === "keyword-mock" ? (
+                  <span className="rounded-full bg-amber-100 px-3 py-1 text-[11px] font-semibold text-amber-700">
+                    목데이터 (키워드)
+                  </span>
+                ) : (
+                  <span className="rounded-full bg-emerald-100 px-3 py-1 text-[11px] font-semibold text-emerald-700">
+                    모델 분석
+                  </span>
+                )}
+              </div>
             </div>
             <div className="mt-4 grid gap-4 lg:grid-cols-[1.1fr_1fr]">
               <div className="relative mx-auto flex items-center justify-center">
