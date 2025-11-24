@@ -25,3 +25,9 @@ body {
   background: #a5f3fc;
   color: #022c22;
 }
+
+@layer utilities {
+  .bg-linear-to-br {
+    background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+  }
+}

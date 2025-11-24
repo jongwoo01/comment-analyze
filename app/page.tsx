@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-transparent text-slate-900">
       <div className="pointer-events-none absolute inset-0 opacity-60">
-        <div className="absolute inset-10 rounded-[50px] border border-slate-200/70 bg-gradient-to-br from-white/80 via-transparent to-emerald-100/60 blur-[120px]" />
+        <div className="absolute inset-10 rounded-[50px] border border-slate-200/70 bg-linear-to-br from-white/80 via-transparent to-emerald-100/60 blur-[120px]" />
       </div>
       <main className="mx-auto flex min-h-screen max-w-4xl flex-col justify-center px-6 py-12">
         <div className="max-w-2xl space-y-3">

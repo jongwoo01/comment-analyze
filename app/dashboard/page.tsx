@@ -353,7 +353,7 @@ function DashboardContent() {
     return (
       <div className="relative min-h-screen overflow-hidden bg-transparent text-slate-900">
         <div className="pointer-events-none absolute inset-0 opacity-60">
-          <div className="absolute inset-10 rounded-[50px] border border-slate-200/70 bg-gradient-to-br from-white/80 via-transparent to-emerald-100/60 blur-[120px]" />
+          <div className="absolute inset-10 rounded-[50px] border border-slate-200/70 bg-linear-to-br from-white/80 via-transparent to-emerald-100/60 blur-[120px]" />
         </div>
         <main className="mx-auto flex min-h-screen max-w-4xl flex-col justify-center px-6 py-12">
           <div className="max-w-2xl space-y-3">
@@ -388,7 +388,7 @@ function DashboardContent() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-transparent text-slate-900">
       <div className="pointer-events-none absolute inset-0 opacity-50">
-        <div className="absolute inset-10 rounded-[36px] border border-slate-200/80 bg-gradient-to-br from-white via-transparent to-emerald-100/70 blur-[120px]" />
+        <div className="absolute inset-10 rounded-[36px] border border-slate-200/80 bg-linear-to-br from-white via-transparent to-emerald-100/70 blur-[120px]" />
       </div>
 
       <main className="mx-auto flex max-w-5xl flex-col gap-6 px-5 pb-12 pt-10">
